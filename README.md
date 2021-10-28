@@ -21,18 +21,66 @@
 > Um módulo pode ser visto como um agregador de classes que são correlacionadas dentro da aplicação.
 
 ### Entidade
-> Um módulo pode ser visto como um agregador de classes que são correlacionadas dentro da aplicação.
+> Uma entidade (entity) é um objeto que existe e é distinguível dos outros objetos. Por exemplo, Paulo Silva com número de CPF 123.456.789-00 é uma entidade, visto que isso identifica unicamente uma pessoa particular do universo.
+
+### Pipes
+> A classe precisa ter o decorator @Injectable e implementar a PipeTransform;
+
+### Formas de Implementar o PIPE:
+
+``` bash
+const app = await NestFactory.create(AppModule);
+app.useGlobalPipes(new ValidationPipe());
+```
+Dessa forma declaramos a utilização do ValidationPipe como sendo global na aplicação. Contudo, é importante se atentar que perde-se a possibilidade de injeção de dependências.
+
+
+``` bash
+@Post()
+async cria(
+ @Body(new ValidationPipe()) livro: Livro) {
+ this.livroService.cria(livro);
+}
+```
+Pipes também podem ser aplicados especifamente em parâmetros de métodos.
+
+``` bash
+import { Module } from '@nestjs/common';
+import { APP_PIPE } from '@nestjs/core';
+
+@Module({
+ providers: [
+   {
+     provide: APP_PIPE,
+     useClass: ValidationPipe,
+   },
+ ],
+})
+export class AppModule {}
+```
+Uma segunda forma de declarar um pipe de forma global é adicioná-lo à seção providers de qualquer módulo da aplicação. Com essa maneira, ganha-se a possibilidade de injetar dependências no pipe.
+
+``` bash
+@Post()
+@UsePipes(new ValidationPipe())
+async cria(@Body() livro: Livro) {
+ this.livroService.cria(livro);
+}
+```
+Com o decorator @UsePipes() podemos declarar um conjunto de pipes para contextos específicos, como um método ou até mesmo para todo um controlador.
 
 
 ## Estrutura do projeto
 ``` bash
   src/
-    |__usuario/
-       |__livros.controller.ts # configuração do endereço da URL e definição das funções
-       |__ livros.service.ts # configuração das regras de negócio
-    |__ app.module.ts # configurações geral do projeto, importação dos controllers, providers e configuração do banco.
+    |__ usuario/
+       |__ usuario.controller.ts # configuração do endereço da URL e definição das funções
+       |__ usuario.service.ts # configuração das regras de negócio
+       |__ usuario.entity.ts # configuração dos campos da entidade, ideal para deixar o codigo fortemente tipado e auxilia no autocomplete 
+       |__ usuario.modulo.ts # configuração de um módulo para cada entidade
+    |__ app.module.ts # configurações geral do projeto, importação dos controllers, providers, modulos e configuração do banco.
     |__ main.ts # configurações da porta onde o servidor irá subir
-    |__.env # arquivo que define as configuralções de conexão ao banco de dados do projeto...
+    |__ .env # arquivo que define as configuralções de conexão ao banco de dados do projeto...
 ```
 
 
@@ -72,6 +120,9 @@ npm install --save @nestjs/sequelize sequelize sequelize-typescript mysql2
 # Instalar as Configurações
 # https://docs.nestjs.com/techniques/configuration
 npm i --save @nestjs/config
+
+# Bibliotecas para Validação dos Campos antes de Chegar no Controller
+npm install class-transformer@0.2.3 class-validator@0.12.2 --save-exact
 
 # Ajustar a porta que o servidor irá utilizar no arquivo \src\main.ts
 # Exemplo definindo a porta 3005
