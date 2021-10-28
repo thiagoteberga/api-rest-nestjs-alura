@@ -7,9 +7,21 @@
 
 ### Controller
 > O controller deve ser responsável apenas pela criação dos Paths (endpoints) e definição do verbo HTTP.
+
 > Os services são importados dentro do controller, e são instanciados através de um construtor.
+
 > Toda a lógica será realizada no service, o controller não precisa saber o que será realizado por baixo dos panos.
 
+> Controlador é uma classe que irá conter métodos correlacionados a um mesmo domínio da aplicação e que serão ativados pelas requisições dos endpoints.
+
+### Provider
+> Um provider é toda classe que é "Injectable"
+
+### Modulo
+> Um módulo pode ser visto como um agregador de classes que são correlacionadas dentro da aplicação.
+
+### Entidade
+> Um módulo pode ser visto como um agregador de classes que são correlacionadas dentro da aplicação.
 
 
 ## Estrutura do projeto
