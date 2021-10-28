@@ -26,6 +26,19 @@
 ### Pipes
 > A classe precisa ter o decorator @Injectable e implementar a PipeTransform;
 
+
+### DTO (Data Transfer Object)
+> Objeto de Transferência de Dados, é um padrão de projeto de software usado para transferir dados entre subsistemas de um software. DTOs são frequentemente usados em conjunção com objetos de acesso a dados para obter dados de um banco de dados.
+
+### Serialização
+> Serialização é o processo de transformação de informações internas de uma aplicação em um formato trafegável pela rede ou que possa ser salvo em um arquivo.
+> Pegar os dados da rede e transformar em um objeto javascript é deserialização.
+
+>No NestJS a serialização é realizada por meio dos Interceptor.
+
+### Filtros
+> Filtros podem ser utilizados para gerar as exceções (erros).
+
 ### Formas de Implementar o PIPE:
 
 ``` bash
@@ -120,6 +133,9 @@ npm install --save @nestjs/sequelize sequelize sequelize-typescript mysql2
 # Instalar as Configurações
 # https://docs.nestjs.com/techniques/configuration
 npm i --save @nestjs/config
+
+# Instalar RXJS
+npm install rxjs --save-exact
 
 # Bibliotecas para Validação dos Campos antes de Chegar no Controller
 npm install class-transformer@0.2.3 class-validator@0.12.2 --save-exact
